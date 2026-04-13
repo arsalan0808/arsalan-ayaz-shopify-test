@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gift Guide</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <header class="header">
+      <nav class="nav-content">
+        <span class="mobile-menu">☰</span>
+        <div class="logo">TISSO VISON</div>
+        
+        <div class="desktop-nav">
+          <div class="nav-text">Find the ideal gift for your loved ones.</div>
+          <button class="cart-btn">Choose Gift →</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content">
+
+      <img id="imgDesktop" src="Images/Frame.png" alt="Banner Image" style="width:100%">
+
+       <!-- Banner -->
+        <div id="mainBanner">
+    <section class="bannerOne">
+      
+      <div class="banner-contentOne">
+        <h1 id="text-headingOne">The Gift Guide</h1>
+        <p class="banner-textOne">
+          Discover Joy: Your Ultimate Holiday Gift Destination.<br> Explore our
+          curated selection and find the perfect gifts to <br>delight your loved
+          ones this holiday season.
+        </p>
+        <button class="shop-btnOne">SHOP NOW →</button>
+      </div>
+      
+    </section>
+    <div id="desktopTwo" style=" overflow: hidden; height: 300px;width: 63%;display: inline-block">
+      <img id="desktopThree" style="  width: 100vw; " src="Images/Frame.png" alt="Banner Image" style="width:100%">
+    </div>
+        </div>
+
+      <section class="banner">
+        <div class="banner-content">
+          <h1 id="text-heading">The Gift Guide</h1>
+          <p class="banner-text">
+            Discover Joy: Your Ultimate Holiday Gift <br class="desktop-break"> Destination.
+          </p>
+        </div>
+        
+        <div class="banner-image-wrapper">
+          <img src="Images/Frame.png" alt="Banner Image" class="banner-img">
+          <button class="shop-btn">SHOP NOW →</button>
+        </div>
+      </section>
+
+      <div class="info-bar">
+        <p id="text-middle">SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR</p>
+      </div>
+
+      <section class="grid-section">
+        <h2>Tisso vison in the wild</h2>
+
+        <div class="grid-container">
+          <div class="item"onclick="openPopup('Suit', 500, 'Images/image 822.png')">
+            <img class="itemimg" src="Images/image 822.png" alt="Bag" />
+            <span class="zoom-icon">+</span>
+          </div>
+
+          <div class="item"onclick="openPopup('Suit', 500, 'Images/image 823.png')">
+            <img class="itemimg" src="Images/image 823.png" alt="Suit" />
+            <span class="zoom-icon">+</span>
+          </div>
+
+          <div class="item" onclick="openPopup('Flannel', 900, 'Images/image 824.png')">
+            <img class="itemimg" src="Images/image 824.png" alt="Flannel" />
+            <span class="zoom-icon">+</span>
+          </div>
+
+          <div class="item" onclick="openPopup('Jacket', 500, 'Images/image 825.png')">
+            <img class="itemimg" src="Images/image 825.png" alt="Jacket" />
+            <span class="zoom-icon">+</span>
+          </div>
+
+          <div class="item" onclick="openPopup('Letterman', 900, 'Images/image 826.png')">
+            <img class="itemimg" src="Images/image 826.png" alt="Letterman" />
+            <span class="zoom-icon">+</span>
+          </div>
+
+          <div class="item" onclick="openPopup('Denim', 500, 'Images/image 827.png')">
+            <img class="itemimg" src="Images/image 827.png" alt="Denim" />
+            <span class="zoom-icon">+</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  <div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">×</span>
+
+  
+    <img id="product-image" src="Images/image 822.png" alt="Product Image" />
+
+    <h3 id="product-name"></h3>
+    <p id="product-price"></p>
+    
+    <label>Color:</label>
+    <select id="color">
+      <option>Blue</option>
+      <option>Black</option>
+    </select>
+
+    <label>Size:</label>
+    <select id="size">
+      <option>Small</option>
+      <option>Medium</option>
+    </select>
+
+    <button class="add-to-cart-btn" onclick="addToCart()">ADD TO CART</button>
+  </div>
+</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
