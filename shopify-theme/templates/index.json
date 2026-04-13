@@ -1,0 +1,115 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero_jVaWmY": {
+      "type": "hero",
+      "name": "t:names.hero",
+      "settings": {
+        "media_type_1": "image",
+        "image_1": "shopify://shop_images/Frame.png",
+        "media_type_2": "image",
+        "stack_media_on_mobile": false,
+        "custom_mobile_media": false,
+        "media_type_1_mobile": "image",
+        "media_type_2_mobile": "image",
+        "link": "",
+        "open_in_new_tab": false,
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "space-between",
+        "vertical_alignment": "flex-end",
+        "align_baseline": true,
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 24,
+        "section_width": "page-width",
+        "section_height": "medium",
+        "section_height_custom": 50,
+        "color_scheme": "scheme-6",
+        "toggle_overlay": true,
+        "overlay_color": "#12121266",
+        "overlay_style": "solid",
+        "gradient_direction": "to bottom",
+        "blurred_reflection": false,
+        "reflection_opacity": 75,
+        "padding-block-start": 100,
+        "padding-block-end": 72
+      }
+    },
+    "custom_grid_NNRk3n": {
+      "type": "custom-banner-grid",
+      "blocks": {
+        "product_rwgmGF": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag"
+          }
+        },
+        "product_R3Vr6V": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo"
+          }
+        },
+        "product_NWyy6z": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt"
+          }
+        },
+        "product_aqpbk8": {
+          "type": "product",
+          "settings": {
+            "product": "dark-winter-jacket"
+          }
+        },
+        "product_JBgPri": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top"
+          }
+        },
+        "product_J7Umgz": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top"
+          }
+        }
+      },
+      "block_order": [
+        "product_rwgmGF",
+        "product_R3Vr6V",
+        "product_NWyy6z",
+        "product_aqpbk8",
+        "product_JBgPri",
+        "product_J7Umgz"
+      ],
+      "name": "Custom Grid",
+      "settings": {
+        "logo_text": "TISSO VISON",
+        "nav_tagline": "Find the ideal gift for your loved ones.",
+        "cta_label": "Choose Gift →",
+        "cta_url": "",
+        "hero_heading": "The Gift Guide",
+        "hero_subtext": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "hero_subtext_short": "Discover Joy: Your Ultimate Holiday Gift Destination.",
+        "shop_label": "SHOP NOW →",
+        "shop_url": "",
+        "info_bar_text": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR",
+        "grid_heading": "Tisso vison in the wild"
+      }
+    }
+  },
+  "order": [
+    "hero_jVaWmY",
+    "custom_grid_NNRk3n"
+  ]
+}
