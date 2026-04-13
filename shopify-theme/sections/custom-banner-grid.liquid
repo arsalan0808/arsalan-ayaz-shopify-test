@@ -1,0 +1,802 @@
+{% comment %}
+  Section: custom-grid.liquid
+  Purpose: Gift Guide landing section with dynamic product grid and popup modal
+  Compatible: Shopify Online Store 2.0 (Dawn and other OS2 themes)
+{% endcomment %}
+
+<!-- ===================== HEADER ===================== -->
+<header class="tv-header">
+  <nav class="tv-nav-content">
+    <span class="tv-mobile-menu">☰</span>
+    <div class="tv-logo">{{ section.settings.logo_text | default: 'TISSO VISON' }}</div>
+    <div class="tv-desktop-nav">
+      <div class="tv-nav-text">{{ section.settings.nav_tagline | default: 'Find the ideal gift for your loved ones.' }}</div>
+      <a href="{{ section.settings.cta_url | default: '#' }}" class="tv-cart-btn">
+        {{ section.settings.cta_label | default: 'Choose Gift →' }}
+      </a>
+    </div>
+  </nav>
+</header>
+
+<!-- ===================== MAIN CONTENT ===================== -->
+<main class="tv-main-content">
+
+  <!-- ===== DESKTOP BANNER (visible ≥768px) ===== -->
+  {% if section.settings.banner_image %}
+    <img
+      id="tv-imgDesktop"
+      src="{{ section.settings.banner_image | image_url: width: 1600 }}"
+      alt="{{ section.settings.banner_image.alt | escape }}"
+      width="1600"
+      loading="lazy"
+    >
+  {% endif %}
+
+  <div id="tv-mainBanner">
+    <section class="tv-bannerOne">
+      <div class="tv-banner-contentOne">
+        <h1 id="tv-text-headingOne">{{ section.settings.hero_heading | default: 'The Gift Guide' }}</h1>
+        <p class="tv-banner-textOne">{{ section.settings.hero_subtext | default: 'Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.' }}</p>
+        <a href="{{ section.settings.shop_url | default: '#' }}" class="tv-shop-btnOne">
+          {{ section.settings.shop_label | default: 'SHOP NOW →' }}
+        </a>
+      </div>
+    </section>
+
+    <div id="tv-desktopTwo">
+      {% if section.settings.banner_image %}
+        <img
+          id="tv-desktopThree"
+          src="{{ section.settings.banner_image | image_url: width: 1600 }}"
+          alt="{{ section.settings.banner_image.alt | escape }}"
+          width="1600"
+          loading="lazy"
+        >
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ===== MOBILE BANNER (visible <768px) ===== -->
+  <section class="tv-banner">
+    <div class="tv-banner-content">
+      <h1 id="tv-text-heading">{{ section.settings.hero_heading | default: 'The Gift Guide' }}</h1>
+      <p class="tv-banner-text">
+        {{ section.settings.hero_subtext_short | default: 'Discover Joy: Your Ultimate Holiday Gift Destination.' }}
+      </p>
+    </div>
+    <div class="tv-banner-image-wrapper">
+      {% if section.settings.banner_image %}
+        <img
+          src="{{ section.settings.banner_image | image_url: width: 800 }}"
+          alt="{{ section.settings.banner_image.alt | escape }}"
+          class="tv-banner-img"
+          width="800"
+          loading="lazy"
+        >
+        <!-- Button is overlaid on image only when image exists -->
+        <a href="{{ section.settings.shop_url | default: '#' }}" class="tv-shop-btn tv-shop-btn--overlay">
+          {{ section.settings.shop_label | default: 'SHOP NOW →' }}
+        </a>
+      {% else %}
+        <!-- No image: button sits below as normal flow element -->
+        <a href="{{ section.settings.shop_url | default: '#' }}" class="tv-shop-btn tv-shop-btn--inline">
+          {{ section.settings.shop_label | default: 'SHOP NOW →' }}
+        </a>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ===== INFO BAR ===== -->
+  <div class="tv-info-bar">
+    <p id="tv-text-middle">{{ section.settings.info_bar_text | default: 'SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR' }}</p>
+  </div>
+
+  <!-- ===== PRODUCT GRID ===== -->
+  <section class="tv-grid-section">
+    <h2>{{ section.settings.grid_heading | default: 'Tisso vison in the wild' }}</h2>
+
+    <div class="tv-grid-container">
+      {% for block in section.blocks %}
+        {% if block.type == 'product' %}
+          {% assign product_ref = block.settings.product %}
+          {% if product_ref != blank %}
+            {% assign product_obj = all_products[product_ref] %}
+            <div
+              class="tv-item"
+              data-tv-name="{{ product_obj.title | escape }}"
+              data-tv-price="{{ product_obj.price | money }}"
+              data-tv-image="{{ product_obj.featured_image | image_url: width: 800 }}"
+              data-tv-variant="{{ product_obj.variants.first.id }}"
+              data-tv-handle="{{ product_obj.handle }}"
+              {{ block.shopify_attributes }}
+            >
+              <img
+                class="tv-itemimg"
+                src="{{ product_obj.featured_image | image_url: width: 600 }}"
+                alt="{{ product_obj.featured_image.alt | default: product_obj.title | escape }}"
+                width="600"
+                loading="lazy"
+              >
+              <span class="tv-zoom-icon">+</span>
+            </div>
+          {% else %}
+            <!-- Placeholder when no product selected -->
+            <div class="tv-item tv-item--placeholder" {{ block.shopify_attributes }}>
+              {{ 'product-1' | placeholder_svg_tag: 'tv-placeholder-svg' }}
+              <span class="tv-zoom-icon">+</span>
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== POPUP MODAL ===================== -->
+<div id="tv-popup" class="tv-popup" role="dialog" aria-modal="true" aria-labelledby="tv-product-name">
+  <div class="tv-popup-content">
+    <button class="tv-close" aria-label="Close">×</button>
+
+    <img id="tv-product-image" src="" alt="Product Image" />
+
+    <h3 id="tv-product-name"></h3>
+    <p id="tv-product-price"></p>
+
+    <label for="tv-color">Color:</label>
+    <select id="tv-color">
+      <option value="Blue">Blue</option>
+      <option value="Black">Black</option>
+    </select>
+
+    <label for="tv-size">Size:</label>
+    <select id="tv-size">
+      <option value="Small">Small</option>
+      <option value="Medium">Medium</option>
+    </select>
+
+    <button class="tv-add-to-cart-btn">ADD TO CART</button>
+  </div>
+</div>
+
+<!-- ===================== STYLES ===================== -->
+<style>
+  /* ---- Reset ---- */
+  .tv-main-content *,
+  .tv-header *,
+  .tv-popup * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* ---- Header ---- */
+  .tv-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #f8f8f8;
+    padding: 15px 20px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  .tv-nav-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .tv-mobile-menu {
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .tv-logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .tv-desktop-nav {
+    display: none;
+  }
+
+  /* ---- Desktop Banner (hidden on mobile) ---- */
+  #tv-imgDesktop {
+    display: none;
+    width: 100%;
+  }
+
+  #tv-desktopTwo {
+    display: none;
+    overflow: hidden;
+    height: 300px;
+    width: 63%;
+  }
+
+  #tv-desktopThree {
+    display: none;
+    width: 100vw;
+  }
+
+  #tv-mainBanner {
+    display: none;
+  }
+
+  .tv-bannerOne {
+    display: none;
+  }
+
+  /* ---- Mobile Banner ---- */
+  .tv-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 30px 20px 0;
+    padding-top: calc(30px + 60px); /* account for fixed header */
+  }
+
+  #tv-text-heading {
+    font-family: 'Lustria', Georgia, serif;
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .tv-banner-text {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+    margin-bottom: 20px;
+    max-width: 500px;
+  }
+
+  .tv-desktop-break {
+    display: none;
+  }
+
+  .tv-banner-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .tv-banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Base shared styles for both shop button variants */
+  .tv-shop-btn {
+    background: black;
+    color: white;
+    padding: 12px 30px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    white-space: nowrap;
+    display: inline-block;
+  }
+
+  /* Overlaid on top of banner image */
+  .tv-shop-btn--overlay {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Normal flow below text when no image */
+  .tv-shop-btn--inline {
+    position: static;
+    transform: none;
+    margin-top: 16px;
+  }
+
+  /* ---- Info Bar ---- */
+  .tv-info-bar {
+    background-color: #F5F5F5;
+    text-align: center;
+    padding: 15px 20px;
+    margin-bottom: 30px;
+  }
+
+  #tv-text-middle {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: #333;
+  }
+
+  /* ---- Grid Section ---- */
+  .tv-grid-section {
+    text-align: center;
+    padding: 0 10px 40px;
+  }
+
+  .tv-grid-section h2 {
+    font-family: 'Lustria', Georgia, serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 400;
+  }
+
+  .tv-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .tv-item {
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 1 / 1.1;
+    overflow: hidden;
+    background-color: #e0e0e0;
+  }
+
+  .tv-itemimg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .tv-item:hover .tv-itemimg {
+    transform: scale(1.03);
+  }
+
+  .tv-zoom-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    pointer-events: none;
+  }
+
+  /* Placeholder SVG */
+  .tv-item--placeholder .tv-placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- Popup Modal ---- */
+  .tv-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+  }
+
+  .tv-popup-content {
+    background: white;
+    padding: 25px;
+    width: 90%;
+    max-width: 350px;
+    margin: 20vh auto;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .tv-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    line-height: 1;
+  }
+
+  .tv-popup-content label,
+  .tv-popup-content select {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .tv-popup-content select {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .tv-add-to-cart-btn {
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 12px;
+    border: none;
+    margin-top: 15px;
+    cursor: pointer;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .tv-add-to-cart-btn:hover {
+    background: #222;
+  }
+
+  #tv-product-image {
+    width: 50%;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: block;
+  }
+
+  #tv-product-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  #tv-product-price {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 12px;
+  }
+
+  /* =====================================================
+     Media Queries — Tablet & Desktop (≥768px)
+  ===================================================== */
+  @media (min-width: 768px) {
+
+    body {
+      padding-top: 60px;
+    }
+
+    /* Header */
+    .tv-mobile-menu {
+      display: none;
+    }
+
+    .tv-nav-content {
+      justify-content: space-between;
+    }
+
+    .tv-desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 500px;
+    }
+
+    .tv-cart-btn {
+      background: #fff544;
+      color: black;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .tv-nav-text {
+      font-size: 14px;
+    }
+
+    /* Desktop banner — show */
+    #tv-imgDesktop {
+      display: block;
+    }
+
+    #tv-desktopTwo {
+      display: inline-block;
+    }
+
+    #tv-desktopThree {
+      display: block;
+    }
+
+    #tv-mainBanner {
+      display: block;
+    }
+
+    .tv-bannerOne {
+      background: #ffffff;
+      width: 36%;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .tv-banner-textOne {
+      font-family: 'Jost', Arial, sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 2vw;
+      line-height: 140%;
+      letter-spacing: 0px;
+      vertical-align: middle;
+    }
+
+    .tv-shop-btnOne {
+      background: black;
+      color: white;
+      padding: 10px 20px;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 12px;
+    }
+
+    #tv-text-headingOne {
+      font-size: 3vw;
+      font-family: 'Lustria', Georgia, serif;
+      margin-bottom: 12px;
+    }
+
+    /* Mobile banner — hide */
+    .tv-banner {
+      display: none;
+    }
+
+    /* Info bar */
+    #tv-text-middle {
+      font-size: 14px;
+    }
+
+    /* Grid → 3 columns */
+    .tv-grid-container {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .tv-grid-section {
+      padding: 0 40px 60px;
+    }
+  }
+</style>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+  // Global state
+  window._tvProduct = {};
+
+  function tvOpenPopup(name, price, image, variantId, handle) {
+    window._tvProduct = { name: name, price: price, image: image, variantId: variantId, handle: handle };
+    document.getElementById('tv-product-name').innerText  = name;
+    document.getElementById('tv-product-price').innerText = price;
+    var img = document.getElementById('tv-product-image');
+    img.src = image;
+    img.alt = name;
+    document.getElementById('tv-popup').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function tvClosePopup() {
+    document.getElementById('tv-popup').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function tvAddToCart() {
+    var color     = document.getElementById('tv-color').value;
+    var size      = document.getElementById('tv-size').value;
+    var variantId = window._tvProduct.variantId;
+
+    if (!variantId) {
+      console.warn('[TV] No variant ID — check product setup in Theme Editor');
+      tvClosePopup();
+      return;
+    }
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ id: parseInt(variantId, 10), quantity: 1, properties: { Color: color, Size: size } }]
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function() {
+      console.log('[TV] Added to cart:', window._tvProduct.name, color, size);
+      if (color === 'Black' && size === 'Medium') {
+        console.log('[TV] Bonus condition met: Black + Medium');
+      }
+      tvClosePopup();
+    })
+    .catch(function(err) {
+      console.error('[TV] Cart error:', err);
+      tvClosePopup();
+    });
+  }
+
+  // Event delegation — runs after DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // Grid card clicks via data-* attributes (no inline onclick needed)
+    var grid = document.querySelector('.tv-grid-container');
+    if (grid) {
+      grid.addEventListener('click', function(e) {
+        var card = e.target.closest('.tv-item[data-tv-name]');
+        if (!card) return;
+        tvOpenPopup(
+          card.getAttribute('data-tv-name'),
+          card.getAttribute('data-tv-price'),
+          card.getAttribute('data-tv-image'),
+          card.getAttribute('data-tv-variant'),
+          card.getAttribute('data-tv-handle')
+        );
+      });
+    }
+
+    // Close button
+    var closeBtn = document.querySelector('.tv-close');
+    if (closeBtn) closeBtn.addEventListener('click', tvClosePopup);
+
+    // Add to cart button
+    var cartBtn = document.querySelector('.tv-add-to-cart-btn');
+    if (cartBtn) cartBtn.addEventListener('click', tvAddToCart);
+
+    // Backdrop click
+    var popup = document.getElementById('tv-popup');
+    if (popup) {
+      popup.addEventListener('click', function(e) {
+        if (e.target === popup) tvClosePopup();
+      });
+    }
+
+    // Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') tvClosePopup();
+    });
+  });
+</script>
+<!-- ===================== SCHEMA ===================== -->
+{% schema %}
+{
+  "name": "Custom Gift Grid",
+  "tag": "section",
+  "class": "tv-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header & Navigation"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "nav_tagline",
+      "label": "Nav Tagline",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Button Label",
+      "default": "Choose Gift →"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "CTA Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Hero Banner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Banner Image"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero Heading",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtext",
+      "label": "Hero Body Text (Desktop)",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtext_short",
+      "label": "Hero Body Text (Mobile)",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination."
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Shop Button Label",
+      "default": "SHOP NOW →"
+    },
+    {
+      "type": "url",
+      "id": "shop_url",
+      "label": "Shop Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Info Bar"
+    },
+    {
+      "type": "text",
+      "id": "info_bar_text",
+      "label": "Info Bar Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+    },
+    {
+      "type": "header",
+      "content": "Product Grid"
+    },
+    {
+      "type": "text",
+      "id": "grid_heading",
+      "label": "Grid Section Heading",
+      "default": "Tisso vison in the wild"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product Card",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Gift Grid",
+      "blocks": [
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" },
+        { "type": "product" }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["index", "page", "collection"]
+  }
+}
+{% endschema %}
